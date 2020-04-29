@@ -1,0 +1,14 @@
+============================= test session starts =============================
+platform win32 -- Python 3.7.3, pytest-5.0.1, py-1.8.0, pluggy-0.12.0 -- C:\Users\emile\Anaconda3\python.exe
+cachedir: .pytest_cache
+rootdir: C:\Users\emile\Desktop\Github\src
+plugins: arraydiff-0.3, doctestplus-0.3.0, openfiles-0.3.2, remotedata-0.3.1
+collecting ... collected 3 items
+
+test_cases.py::test_RPS PASSED                                           [ 33%]
+test_cases.py::test_what_beats_2 PASSED                                  [ 66%]
+test_cases.py::test_beats_0_2 PASSED                                     [100%]
+
+========================== 3 passed in 0.05 seconds ===========================
+
+Process finished with exit code 0
