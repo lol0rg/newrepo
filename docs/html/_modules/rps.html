@@ -220,7 +220,7 @@
 <span class="sd">    &gt;&gt;&gt; what_beats(2)</span>
 <span class="sd">    0</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">choice</span> <span class="o">+</span> <span class="mi">1</span>  <span class="c1"># (choice + 1) % 3</span></div>
+    <span class="k">return</span> <span class="p">(</span><span class="n">choice</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="mi">3</span></div>
 
 
 <div class="viewcode-block" id="beats"><a class="viewcode-back" href="../rps.html#rps.beats">[docs]</a><span class="k">def</span> <span class="nf">beats</span><span class="p">(</span><span class="n">choice_1</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">choice_2</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
@@ -241,7 +241,7 @@
 <span class="sd">    &gt;&gt;&gt; beats(0, 2)</span>
 <span class="sd">    True</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">choice_1</span> <span class="o">&gt;</span> <span class="n">choice_2</span>  <span class="c1"># (choice_1 - choice_2) % 3 == 1</span></div>
+    <span class="k">return</span> <span class="p">(</span><span class="n">choice_1</span> <span class="o">-</span> <span class="n">choice_2</span><span class="p">)</span> <span class="o">%</span> <span class="mi">3</span> <span class="o">==</span> <span class="mi">1</span></div>
     <span class="c1"># equiv to choice_1 == what_beats(choice_2)</span>
 
 
