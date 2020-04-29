@@ -1,0 +1,342 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>rps &mdash; 2is50-2019-2020-ha-0  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> 2is50-2019-2020-ha-0
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../modules.html">Source Files</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">2is50-2019-2020-ha-0</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="index.html">Module code</a> &raquo;</li>
+        
+      <li>rps</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for rps</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Program that plays Rock-Paper-Scissors.</span>
+
+<span class="sd">Author: Tom Verhoeff</span>
+
+<span class="sd">Copyright (c) 2020 - Eindhoven University of Technology, The Netherlands</span>
+
+<span class="sd">This software is made available under the terms of the MIT License.</span>
+
+<span class="sd">* Contributor: Emile Ducornez</span>
+<span class="sd">* TU/e ID number: 1263870</span>
+<span class="sd">* Date: 29-04-2020</span>
+
+<span class="sd">The three choice options Rock, Paper, and Scissors are encoded</span>
+<span class="sd">in an integer (see constant :data:`OPTIONS`).</span>
+
+<span class="sd">To translate letter ``c`` (``c in RPS``) to an integer,</span>
+<span class="sd">use :func:`rps_choice`.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">Mapping</span>
+<span class="kn">import</span> <span class="nn">random</span>
+<span class="kn">import</span> <span class="nn">tkinter</span> <span class="k">as</span> <span class="nn">tk</span>
+
+<span class="c1">#: The encoding of the three choice options</span>
+<span class="n">OPTIONS</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="s2">&quot;Rock&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span> <span class="s2">&quot;Paper&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">:</span> <span class="s2">&quot;Scissors&quot;</span><span class="p">}</span>
+
+<span class="c1">#: The valid choice letters</span>
+<span class="n">RPS</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">name</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">OPTIONS</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+
+<span class="c1">#: Type for (probability) distribution, assuming same keys as :data:`OPTIONS`</span>
+<span class="n">Distribution</span> <span class="o">=</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span>
+
+
+<div class="viewcode-block" id="rps_choice"><a class="viewcode-back" href="../rps.html#rps.rps_choice">[docs]</a><span class="k">def</span> <span class="nf">rps_choice</span><span class="p">(</span><span class="n">letter</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Return choice integer corresponding to given letter.</span>
+
+<span class="sd">    The letter is first converted to lower case.</span>
+
+<span class="sd">    Assumptions:</span>
+<span class="sd">    * len(letter) == 1</span>
+<span class="sd">    * letter.lower() in RPS</span>
+
+<span class="sd">    :param letter: letter to convert to integer</span>
+<span class="sd">    :return: integer in OPTIONS corresponding to letter</span>
+
+<span class="sd">    &gt;&gt;&gt; rps_choice(&#39;r&#39;)</span>
+<span class="sd">    0</span>
+<span class="sd">    &gt;&gt;&gt; rps_choice(&#39;P&#39;)</span>
+<span class="sd">    1</span>
+<span class="sd">    &gt;&gt;&gt; rps_choice(&#39;s&#39;)</span>
+<span class="sd">    2</span>
+<span class="sd">    &gt;&gt;&gt; rps_choice(&#39;X&#39;)</span>
+<span class="sd">    Traceback (most recent call last):</span>
+<span class="sd">        ...</span>
+<span class="sd">    AssertionError: letter.lower() must be in RPS</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">assert</span> <span class="n">letter</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="n">RPS</span><span class="p">,</span> <span class="s2">&quot;letter.lower() must be in RPS&quot;</span>
+
+    <span class="k">return</span> <span class="n">RPS</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">letter</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span></div>
+
+
+<div class="viewcode-block" id="what_beats"><a class="viewcode-back" href="../rps.html#rps.what_beats">[docs]</a><span class="k">def</span> <span class="nf">what_beats</span><span class="p">(</span><span class="n">choice</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Return the choice that beats the given choice.</span>
+
+<span class="sd">    Assumption: choice in OPTIONS</span>
+
+<span class="sd">    :param choice: choice to beat</span>
+<span class="sd">    :return: the choice that beats the given choice</span>
+
+<span class="sd">    &gt;&gt;&gt; what_beats(0)</span>
+<span class="sd">    1</span>
+<span class="sd">    &gt;&gt;&gt; what_beats(1)</span>
+<span class="sd">    2</span>
+<span class="sd">    &gt;&gt;&gt; what_beats(2)</span>
+<span class="sd">    0</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">choice</span> <span class="o">+</span> <span class="mi">1</span>  <span class="c1"># (choice + 1) % 3</span></div>
+
+
+<div class="viewcode-block" id="beats"><a class="viewcode-back" href="../rps.html#rps.beats">[docs]</a><span class="k">def</span> <span class="nf">beats</span><span class="p">(</span><span class="n">choice_1</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">choice_2</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Return whether choice_1 beats choice_2.</span>
+
+<span class="sd">    Assumption: choice_1 in OPTIONS and choice_2 in OPTIONS</span>
+
+<span class="sd">    :param choice_1: choice of first player</span>
+<span class="sd">    :param choice_2: choice of second player</span>
+<span class="sd">    :return: whether choice_1 beats choice_2</span>
+
+<span class="sd">    &gt;&gt;&gt; beats(0, 0)</span>
+<span class="sd">    False</span>
+<span class="sd">    &gt;&gt;&gt; beats(0, 1)</span>
+<span class="sd">    False</span>
+<span class="sd">    &gt;&gt;&gt; beats(1, 0)</span>
+<span class="sd">    True</span>
+<span class="sd">    &gt;&gt;&gt; beats(0, 2)</span>
+<span class="sd">    True</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">choice_1</span> <span class="o">&gt;</span> <span class="n">choice_2</span>  <span class="c1"># (choice_1 - choice_2) % 3 == 1</span></div>
+    <span class="c1"># equiv to choice_1 == what_beats(choice_2)</span>
+
+
+<div class="viewcode-block" id="random_choice"><a class="viewcode-back" href="../rps.html#rps.random_choice">[docs]</a><span class="k">def</span> <span class="nf">random_choice</span><span class="p">(</span><span class="n">distr</span><span class="p">:</span> <span class="n">Distribution</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Return choice in OPTIONS with given distribution.</span>
+
+<span class="sd">    Assumptions:</span>
+<span class="sd">    * set(weights.keys()) == set(OPTIONS.keys())</span>
+<span class="sd">    * all(w &gt;= 0 for w in distr)</span>
+
+<span class="sd">    &gt;&gt;&gt; all(random_choice({0: 1, 1: 1, 2: 1}) in OPTIONS for _ in range(10))</span>
+<span class="sd">    True</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">random</span><span class="o">.</span><span class="n">choices</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">distr</span><span class="o">.</span><span class="n">keys</span><span class="p">()),</span> <span class="n">weights</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">distr</span><span class="o">.</span><span class="n">values</span><span class="p">()),</span> <span class="n">k</span><span class="o">=</span><span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="Application"><a class="viewcode-back" href="../rps.html#rps.Application">[docs]</a><span class="k">class</span> <span class="nc">Application</span><span class="p">(</span><span class="n">tk</span><span class="o">.</span><span class="n">Frame</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">master</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">master</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">master</span> <span class="o">=</span> <span class="n">master</span>
+        <span class="n">master</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Rock - Paper - Scissors&quot;</span><span class="p">)</span>
+        <span class="n">master</span><span class="o">.</span><span class="n">geometry</span><span class="p">(</span><span class="s1">&#39;320x320+100+100&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pack</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">create_widgets</span><span class="p">()</span>
+
+<div class="viewcode-block" id="Application.create_widgets"><a class="viewcode-back" href="../rps.html#rps.Application.create_widgets">[docs]</a>    <span class="k">def</span> <span class="nf">create_widgets</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">frame</span> <span class="o">=</span> <span class="n">tk</span><span class="o">.</span><span class="n">Frame</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">borderwidth</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">relief</span><span class="o">=</span><span class="n">tk</span><span class="o">.</span><span class="n">GROOVE</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">frame</span><span class="o">.</span><span class="n">pack</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">rock_button</span> <span class="o">=</span> <span class="n">tk</span><span class="o">.</span><span class="n">Button</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">frame</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rock_button</span><span class="p">[</span><span class="s2">&quot;text&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">OPTIONS</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rock_button</span><span class="p">[</span><span class="s2">&quot;command&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="k">lambda</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">show_choice</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rock_button</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">side</span><span class="o">=</span><span class="n">tk</span><span class="o">.</span><span class="n">LEFT</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">paper_button</span> <span class="o">=</span> <span class="n">tk</span><span class="o">.</span><span class="n">Button</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">frame</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">paper_button</span><span class="p">[</span><span class="s2">&quot;text&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">OPTIONS</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">paper_button</span><span class="p">[</span><span class="s2">&quot;command&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="k">lambda</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">show_choice</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">paper_button</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">side</span><span class="o">=</span><span class="n">tk</span><span class="o">.</span><span class="n">LEFT</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">scissors_button</span> <span class="o">=</span> <span class="n">tk</span><span class="o">.</span><span class="n">Button</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">frame</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scissors_button</span><span class="p">[</span><span class="s2">&quot;text&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">OPTIONS</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scissors_button</span><span class="p">[</span><span class="s2">&quot;command&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="k">lambda</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">show_choice</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scissors_button</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">side</span><span class="o">=</span><span class="n">tk</span><span class="o">.</span><span class="n">LEFT</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">quit</span> <span class="o">=</span> <span class="n">tk</span><span class="o">.</span><span class="n">Button</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s2">&quot;QUIT&quot;</span><span class="p">,</span> <span class="n">fg</span><span class="o">=</span><span class="s2">&quot;red&quot;</span><span class="p">,</span>
+                              <span class="n">command</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">master</span><span class="o">.</span><span class="n">destroy</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">quit</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">side</span><span class="o">=</span><span class="s2">&quot;bottom&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Application.show_choice"><a class="viewcode-back" href="../rps.html#rps.Application.show_choice">[docs]</a>    <span class="k">def</span> <span class="nf">show_choice</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">choice</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;You chose </span><span class="si">{OPTIONS[choice]}</span><span class="s2">&quot;</span><span class="p">)</span></div></div>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">root</span> <span class="o">=</span> <span class="n">tk</span><span class="o">.</span><span class="n">Tk</span><span class="p">()</span>
+    <span class="n">app</span> <span class="o">=</span> <span class="n">Application</span><span class="p">(</span><span class="n">master</span><span class="o">=</span><span class="n">root</span><span class="p">)</span>
+    <span class="n">app</span><span class="o">.</span><span class="n">mainloop</span><span class="p">()</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, Tom Verhoeff
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
