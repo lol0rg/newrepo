@@ -6,9 +6,9 @@ Copyright (c) 2020 - Eindhoven University of Technology, The Netherlands
 
 This software is made available under the terms of the MIT License.
 
-* Contributor: ...
-* TU/e ID number: ...
-* Date: ...
+* Contributor: Emile Ducornez
+* TU/e ID number: 1263870
+* Date: 29-04-2020
 
 This software is made available under the terms of the MIT License.
 """
